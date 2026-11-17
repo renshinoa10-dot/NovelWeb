@@ -10,21 +10,21 @@ Tahun Akademik: **2026/2027**
 
 | Komponen | Keterangan |
 | :--- | :--- |
-| **Nomor Kelompok** | [MASUKKAN NOMOR KELOMPOK] |
+| **Nomor Kelompok** | [ Kere Hore |
 | **Tema / Topik Proyek** | Sistem Informasi Penulisan & Publikasi Web Novel Berbasis AI |
-| **Program Studi / Jurusan** | [MASUKKAN PROGRAM STUDI] |
-| **Fakultas / Universitas** | [MASUKKAN NAMA UNIVERSITAS] |
-| **Dosen Pengampu** | [MASUKKAN NAMA DOSEN PENGAMPU BESERTA GELAR] |
+| **Kelas** | TI-1D Reguler |
+| **Fakultas / Universitas** | STMIK IKMI |
+| **Dosen Pengampu** | Yudhistira Arie Wijaya, M.kom |
 
 ### Daftar Anggota Kelompok:
 
 | No | Nama Mahasiswa | NIM | Peran / Pembagian Tugas |
 |:--:| :--- | :---: | :--- |
-| 1 | [MASUKKAN NAMA KETUA KELOMPOK] | [MASUKKAN NIM 1] | Full-Stack & Database Architecture |
-| 2 | [MASUKKAN NAMA ANGGOTA 2] | [MASUKKAN NIM 2] | Frontend Developer & UI/UX Styling |
-| 3 | [MASUKKAN NAMA ANGGOTA 3] | [MASUKKAN NIM 3] | Backend Developer & API Integration |
-| 4 | [MASUKKAN NAMA ANGGOTA 4] | [MASUKKAN NIM 4] | Software Testing & Dokumentasi RPL |
-
+| 1 | Ketua : Fajar Ma'aruf | 41257191 |  
+| 2 | Eggi Alivia Rohmaht | 41257187 |  
+| 3 | Daryell Zhafranabil Saren | 41257184 | 
+| 4 | Leo Ardiansyah Jailani | 41257201 | 
+| 5 | Fakhri Fadlurrohman Rahmadani | 41256192 | 
 ---
 
 ## 📖 B. DESKRIPSI APLIKASI
