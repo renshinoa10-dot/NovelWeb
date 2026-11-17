@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bladeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#052e16" />
+      <stop offset="50%" stop-color="#064e3b" />
+      <stop offset="100%" stop-color="#022c22" />
+    </linearGradient>
+    <linearGradient id="lightning" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="50%" stop-color="#6ee7b7" />
+      <stop offset="100%" stop-color="#a7f3d0" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="600" fill="url(#bladeBg)" />
+
+  <!-- Lightning effect -->
+  <path d="M220 60 L180 200 L230 220 L160 380 L190 260 L150 240 Z" fill="url(#lightning)" opacity="0.9" filter="drop-shadow(0 0 10px #10b981)" />
+
+  <!-- Blade Silhouette -->
+  <path d="M200 120 L205 380 L200 420 L195 380 Z" fill="#ecfdf5" opacity="0.95" />
+  <rect x="180" y="420" width="40" height="8" rx="4" fill="#d97706" />
+  <rect x="195" y="428" width="10" height="50" rx="3" fill="#92400e" />
+
+  <!-- Badge Genre -->
+  <rect x="40" y="40" width="115" height="26" rx="13" fill="#059669" fill-opacity="0.3" stroke="#34d399" stroke-width="1" />
+  <text x="97" y="57" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="600" fill="#a7f3d0" text-anchor="middle">AKSI &amp; SILAT</text>
+
+  <!-- Typography -->
+  <text x="40" y="460" font-family="'Outfit', sans-serif" font-size="25" font-weight="800" fill="#ffffff" letter-spacing="-0.5">LEGENDA PEDANG</text>
+  <text x="40" y="492" font-family="'Outfit', sans-serif" font-size="25" font-weight="800" fill="#6ee7b7" letter-spacing="-0.5">PETIR NUSANTARA</text>
+  <text x="40" y="520" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="500" fill="#a7f3d0">Kisah Pendekar Abad Pertengahan</text>
+
+  <line x1="40" y1="540" x2="360" y2="540" stroke="#047857" stroke-width="1" />
+  <text x="40" y="565" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="600" fill="#d1fae5">Oleh: Ahmad Rian</text>
+</svg>

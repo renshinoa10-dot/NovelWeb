@@ -1,0 +1,17 @@
+# Keamanan Direktori Uploads
+# 1. Matikan eksekusi script PHP dan bahasa scripting lainnya
+<FilesMatch "(?i)\.(php|phtml|php3|php4|php5|php7|php8|pht|phar|inc|cgi|pl|py|sh|asp|aspx)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# 2. Matikan engine PHP jika modul terpasang
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+
+# 3. Matikan directory indexing
+Options -Indexes -ExecCGI

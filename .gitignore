@@ -1,0 +1,30 @@
+# Environment and credentials
+.env
+.env.backup
+.env.local
+
+# Temporary / test files
+cookie_*.txt
+test_cookie_*.txt
+*.log
+scratch/
+bukti_pengujian/tmp_chrome/
+
+# User uploads (keep directory structure and security htaccess)
+/public/uploads/covers/*
+!/public/uploads/covers/.gitkeep
+!/public/uploads/.htaccess
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor settings
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Composer dependencies
+/vendor/

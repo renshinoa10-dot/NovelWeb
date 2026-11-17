@@ -1,0 +1,352 @@
+{
+    "summary": {
+        "total": 34,
+        "pass": 34,
+        "fail": 0,
+        "blocked": 0,
+        "not_tested": 0,
+        "percentage": 100
+    },
+    "tests": [
+        {
+            "id": "TC-AUTH-01",
+            "modul": "Autentikasi",
+            "skenario": "Registrasi Pembaca dengan OTP WhatsApp",
+            "langkah": "Submit form register dengan role=pembaca & no WhatsApp",
+            "input": "name=Tester Pembaca UAS, email=tester.pembaca.1794894833@test.id, phone=081296010034, role=pembaca",
+            "expected": "Akun tersimpan di database dengan is_verified=0 dan OTP terbit",
+            "actual": "Akun ID #69 berhasil dibuat dengan is_verified=0, role=pembaca, OTP=454088",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-AUTH-02",
+            "modul": "Autentikasi",
+            "skenario": "Verifikasi Kode OTP WhatsApp",
+            "langkah": "1. Masukkan OTP salah (000000). 2. Masukkan OTP valid (454088)",
+            "input": "OTP salah=000000, OTP benar=454088",
+            "expected": "OTP salah ditolak, OTP benar diterima dan is_verified berubah menjadi 1",
+            "actual": "OTP 000000 ditolak (\"Kode OTP salah\"), OTP valid diterima, is_verified=1",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-AUTH-03",
+            "modul": "Autentikasi",
+            "skenario": "Login Menggunakan Alamat Email",
+            "langkah": "Input email dan password terdaftar",
+            "input": "identifier=tester.pembaca.1794894833@test.id, password=rahasia123",
+            "expected": "Autentikasi berhasil, data sesi user dikembalikan",
+            "actual": "Autentikasi sukses untuk Tester Pembaca UAS (Role: pembaca)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-AUTH-04",
+            "modul": "Autentikasi",
+            "skenario": "Login Menggunakan Nomor WhatsApp",
+            "langkah": "Input nomor telepon dan password terdaftar",
+            "input": "identifier=081296010034, password=rahasia123",
+            "expected": "Autentikasi berhasil menggunakan nomor WhatsApp",
+            "actual": "Autentikasi sukses via WhatsApp 081296010034",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-AUTH-05",
+            "modul": "Autentikasi",
+            "skenario": "Validasi Keamanan Login Sandi Salah",
+            "langkah": "Input email benar dan password salah",
+            "input": "identifier=tester.pembaca.1794894833@test.id, password=salahPassword999",
+            "expected": "Sistem menolak dan mengembalikan null",
+            "actual": "Login ditolak secara aman tanpa bocor error kredensial",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-AUTH-06",
+            "modul": "Autentikasi",
+            "skenario": "Gatekeeper Penolakan Akses Tanpa Login",
+            "langkah": "Kirim HTTP GET request ke root http:\/\/localhost\/Novelweb\/ tanpa cookie sesi",
+            "input": "Request GET \/",
+            "expected": "Sistem mengembalikan HTTP 302 redirect ke auth\/login",
+            "actual": "Response HTTP 302 Found menuju http:\/\/localhost\/Novelweb\/auth\/login",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-ROLE-01",
+            "modul": "Role & Hak Akses",
+            "skenario": "Verifikasi Sesi Administrator",
+            "langkah": "Set autentikasi akun admin",
+            "input": "admin@karyanovel.id",
+            "expected": "Session::isAdmin() bernilai true dan role=admin",
+            "actual": "Teridentifikasi sebagai Administrator penuh (ID #1)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-ROLE-02",
+            "modul": "Role & Hak Akses",
+            "skenario": "Verifikasi Sesi Penulis & Non-Admin",
+            "langkah": "Set autentikasi akun penulis",
+            "input": "penulis1@karyanovel.id",
+            "expected": "Session::isPenulis() true dan Session::isAdmin() false",
+            "actual": "Terverifikasi sebagai Penulis (Ahmad Rian), hak akses admin terkunci",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-ROLE-03",
+            "modul": "Role & Hak Akses",
+            "skenario": "Verifikasi Sesi Pembaca",
+            "langkah": "Set autentikasi akun pembaca",
+            "input": "tester.pembaca",
+            "expected": "Session::isPembaca() true, isPenulis & isAdmin false",
+            "actual": "Terverifikasi sebagai Pembaca murni tanpa hak tulis\/admin",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-ROLE-04",
+            "modul": "Role & Hak Akses",
+            "skenario": "Tenant Data Isolation Penulis",
+            "langkah": "Panggil Novel::getByAuthor(user_id=2)",
+            "input": "user_id=2",
+            "expected": "Hanya mengembalikan novel milik user_id 2 secara ketat",
+            "actual": "100% naskah yang diambil (40 novel) milik user_id 2",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-NOV-01",
+            "modul": "Manajemen Novel",
+            "skenario": "Pembuatan Novel Baru Berstatus Draft",
+            "langkah": "Insert novel baru via Novel::createNovel()",
+            "input": "user_id=2, title=Uji Novel Otomatis RPL 1794894834, genre=Fantasi, status=draft",
+            "expected": "Novel tersimpan di database dengan ID valid dan status draft",
+            "actual": "Novel ID #109 berhasil dibuat (Status: draft)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-NOV-02",
+            "modul": "Manajemen Novel",
+            "skenario": "Pembaruan Data Naskah Novel",
+            "langkah": "Update judul dan genre via Novel::updateNovel()",
+            "input": "id=109, title=Uji Novel Otomatis RPL 1794894834 (Edisi Revisi), genre=Petualangan",
+            "expected": "Perubahan tersimpan di database",
+            "actual": "Judul berhasil diperbarui menjadi: Uji Novel Otomatis RPL 1794894834 (Edisi Revisi)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-NOV-03",
+            "modul": "Manajemen Novel",
+            "skenario": "Peralihan Status Publikasi Naskah",
+            "langkah": "Eksekusi toggleStatus 2 kali berturut-turut",
+            "input": "novel_id=109, user_id=2",
+            "expected": "Status beralih dari draft -> published lalu kembali ke draft",
+            "actual": "Transisi status berhasil: draft -> published (OK) -> draft (OK)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-CHAP-01",
+            "modul": "Manajemen Bab",
+            "skenario": "Pembuatan Bab Baru Naskah",
+            "langkah": "Insert bab via Chapter::createChapter()",
+            "input": "novel_id=109, title=Bab 1, order=1, status=draft",
+            "expected": "Bab tersimpan terikat pada novel dengan order 1",
+            "actual": "Bab ID #187 berhasil dibuat (Order #1)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-CHAP-02",
+            "modul": "Manajemen Bab",
+            "skenario": "Pembaruan Konten Bab (Autosave API)",
+            "langkah": "Kirim pembaruan teks naskah ke Chapter::updateChapter()",
+            "input": "content=Di sebuah laboratorium komputasi yang hening, bari...",
+            "expected": "Konten tersimpan di database secara utuh",
+            "actual": "Teks bab berhasil diperbarui (142 karakter)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-CHAP-03",
+            "modul": "Manajemen Bab",
+            "skenario": "Pengaturan Urutan Bab (Chapter Ordering)",
+            "langkah": "Panggil Chapter::reorderChapters dengan urutan ditukar [Bab2, Bab1]",
+            "input": "orderedIds=[188, 187]",
+            "expected": "Bab 2 menjadi urutan 1, Bab 1 menjadi urutan 2",
+            "actual": "Urutan bab berhasil diubah: Bab ID #188 (Order 1), Bab ID #187 (Order 2)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-PUB-01",
+            "modul": "Publikasi & Membaca",
+            "skenario": "Proteksi Naskah Draft dari Katalog Publik",
+            "langkah": "Ambil daftar katalog novel published via Novel::getPublished()",
+            "input": "status=published",
+            "expected": "Novel draft ID #109 tidak muncul di katalog publik",
+            "actual": "Naskah draft terisolasi secara sempurna dari katalog publik",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-PUB-02",
+            "modul": "Publikasi & Membaca",
+            "skenario": "Visibilitas Naskah Terbit di Katalog Publik",
+            "langkah": "Ubah status novel menjadi published dan muat ulang katalog publik",
+            "input": "status=published",
+            "expected": "Novel ID #109 muncul di katalog publik",
+            "actual": "Novel terbit berhasil tampil di katalog publik",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-DASH-01",
+            "modul": "Dashboard & Statistik",
+            "skenario": "Sinkronisasi Metrik Dashboard Penulis",
+            "langkah": "Panggil Novel::getAuthorDashboardStats(user_id=2)",
+            "input": "user_id=2",
+            "expected": "Total novel dashboard sama persis dengan COUNT(*) basis data aktual",
+            "actual": "Statistik sinkron: 41 novel (Published: 16, Draft: 25)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-AI-01",
+            "modul": "AI Writing Assistant",
+            "skenario": "Generate Idea Cerita",
+            "langkah": "Kirim instruksi generate ide ke AiService::generate()",
+            "input": "type=idea, prompt=\"Dunia paralel...\"",
+            "expected": "AI menghasilkan premis ide cerita kreatif dan berbobot",
+            "actual": "Ide berhasil dihasilkan (2153 karakter)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-AI-02",
+            "modul": "AI Writing Assistant",
+            "skenario": "Generate Outline Bab",
+            "langkah": "Kirim instruksi outline babak cerita ke AiService::generate()",
+            "input": "type=outline, prompt=\"Rancangan alur...\"",
+            "expected": "AI menyusun kerangka bab dari babak awal hingga konklusi",
+            "actual": "Outline naskah tersusun rapi (1853 karakter)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-AI-03",
+            "modul": "AI Writing Assistant",
+            "skenario": "Generate Profil Karakter \/ Tokoh",
+            "langkah": "Kirim instruksi profil penokohan ke AiService::generate()",
+            "input": "type=character, prompt=\"Tokoh protagonis...\"",
+            "expected": "AI menghasilkan profil tokoh, motif psikologis, dan ciri khas",
+            "actual": "Karakter berhasil di-generate (1493 karakter)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-AI-04",
+            "modul": "AI Writing Assistant",
+            "skenario": "Continue Story (Kelanjutan Adegan)",
+            "langkah": "Kirim cuplikan teks naskah untuk dilanjutkan AI",
+            "input": "type=continue, context=\"Langkah kaki...\", prompt=\"Lanjutkan...\"",
+            "expected": "AI melanjutkan kalimat cerita selaras dengan nada konteks sebelumnya",
+            "actual": "Kelanjutan cerita dihasilkan mulus (493 karakter)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-AI-05",
+            "modul": "AI Writing Assistant",
+            "skenario": "Improve Writing (Pemolesan Gaya Bahasa)",
+            "langkah": "Kirim teks kalimat sederhana untuk dipoles majas dan diksinya",
+            "input": "type=improve, prompt=\"Perkaya gaya...\"",
+            "expected": "AI menghasilkan revisi kalimat dengan diksi puitis dan mengalir",
+            "actual": "Teks diperbaiki dengan kualitas sastra tinggi (1027 karakter)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-AI-06",
+            "modul": "AI Writing Assistant",
+            "skenario": "Give Suggestions (Saran & Feedback Naratif)",
+            "langkah": "Minta kritik dan saran penulisan konstruktif dari AI",
+            "input": "type=suggestions, prompt=\"Beri masukan...\"",
+            "expected": "AI memberikan butir saran taktis untuk pacing, dialog, dan dramatisasi",
+            "actual": "Saran naratif terstruktur berhasil disajikan (1390 karakter)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-AI-07",
+            "modul": "AI Writing Assistant",
+            "skenario": "Pencatatan Riwayat Prompt & Respons AI",
+            "langkah": "Simpan interaksi prompt ke tabel ai_histories",
+            "input": "user_id=2, chapter_id=187",
+            "expected": "Jumlah riwayat bertambah 1 di database",
+            "actual": "Riwayat AI berhasil dicatat (Total riwayat: 108)",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-CHAT-01",
+            "modul": "Chatbot Asisten",
+            "skenario": "Pertanyaan Identitas Diri Bot (\"Siapa Anda?\")",
+            "langkah": "Kirim pesan \"Siapa Anda?\" ke ChatbotController",
+            "input": "message=\"Siapa Anda?\"",
+            "expected": "Bot memperkenalkan diri sebagai karyaNovel Assistant",
+            "actual": "Bot menjawab: \"Halo! Saya adalah karyaNovel Assistant...\"",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-CHAT-02",
+            "modul": "Chatbot Asisten",
+            "skenario": "Pertanyaan Identifikasi Akun Aktif (\"Siapa saya?\")",
+            "langkah": "Kirim pesan \"Siapa saya?\" dengan sesi Admin terotentikasi",
+            "input": "message=\"Siapa saya?\" (Sesi Admin)",
+            "expected": "Bot mengidentifikasi nama pengguna dan peran sistemnya secara akurat",
+            "actual": "Bot menjawab data identitas sesi: \"Anda sedang login sebagai **Administrator karyaNovel**, dengan role **Administrator**.\n\n\ud83d\udc64 **Informasi Akun & Status Anda (Database karyaNovel):**\n\u2022 **Nama Pengguna**: Administrator karyaNovel\n\u2022 **Email**: admin@karyanovel.id\n\u2022 **Peran \/ Role**: **Administrator**\n\u2022 **Hak Akses**: Hak Akses Penuh Administrator (Manajemen Pengguna, Moderasi Novel, Analitik Platform)\n\nSebagai **Administrator**, Anda memiliki kewenangan penuh untuk mengelola pengguna, moderasi naskah novel, dan meninjau seluruh data platform di [Pusat Kontrol Admin](http:\/\/localhost\/Novelweb\/admin).\"",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-CHAT-03",
+            "modul": "Chatbot Asisten",
+            "skenario": "Pertanyaan Total Pengguna Basis Data (Admin)",
+            "langkah": "Admin bertanya \"Berapa total pengguna?\"",
+            "input": "message=\"Berapa total pengguna?\" (Sesi Admin)",
+            "expected": "Chatbot menjawab ringkas angka total pengguna aktual dari database",
+            "actual": "Chatbot menjawab ringkas: \"16 pengguna.\"",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-CHAT-04",
+            "modul": "Chatbot Asisten",
+            "skenario": "Daftar Seluruh Pengguna Format Tabel Markdown",
+            "langkah": "Admin bertanya \"Tampilkan semua pengguna.\"",
+            "input": "message=\"Tampilkan semua pengguna.\" (Sesi Admin)",
+            "expected": "Chatbot mengembalikan tabel Markdown dengan kolom No, Nama Pengguna, dan Role",
+            "actual": "Tabel Markdown pengguna berhasil di-generate secara lengkap",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-CHAT-05",
+            "modul": "Chatbot Asisten",
+            "skenario": "Pencarian Informasi Katalog Novel Terbit",
+            "langkah": "Pengguna bertanya \"Daftar novel apa saja yang ada?\"",
+            "input": "message=\"Daftar novel apa saja yang ada?\"",
+            "expected": "Chatbot menguraikan daftar naskah novel yang sudah terbit di platform",
+            "actual": "Chatbot menampilkan katalog naskah secara informatif",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-CHAT-06",
+            "modul": "Chatbot Asisten",
+            "skenario": "Pembatasan Hak Akses Data Global Chatbot",
+            "langkah": "Pembaca bertanya data admin \"Berapa total pengguna?\"",
+            "input": "message=\"Berapa total pengguna?\" (Sesi Pembaca)",
+            "expected": "Chatbot menolak permintaan dan menginformasikan batasan role",
+            "actual": "Permintaan ditolak secara aman: \"Mohon maaf, informasi mengenai daftar dan statistik seluruh pengguna h...\"",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-CHAT-07",
+            "modul": "Chatbot Asisten",
+            "skenario": "Penanganan Pesan di Luar Konteks Platform",
+            "langkah": "Kirim pertanyaan non-literatur \"Bagaimana cara membuat nasi goreng?\"",
+            "input": "message=\"Bagaimana cara membuat nasi goreng yang lezat?\"",
+            "expected": "Chatbot merespons sopan dan mengarahkan kembali ke topik literatur karyaNovel",
+            "actual": "Chatbot mengarahkan kembali ke ranah karyaNovel secara ramah",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-ADM-01",
+            "modul": "Admin & Moderasi",
+            "skenario": "Penghapusan Naskah Novel & Cascade Bab",
+            "langkah": "Hapus novel pengujian via Novel::deleteNovel()",
+            "input": "novel_id=109",
+            "expected": "Novel dan seluruh bab terhapus bersih dari database",
+            "actual": "Novel ID #109 berhasil dihapus tuntas",
+            "status": "PASS"
+        }
+    ]
+}

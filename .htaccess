@@ -1,0 +1,34 @@
+# Keamanan: Blokir akses ke dotfiles (.env, .git, dll) dan file sensitif
+<FilesMatch "^\.|\.(env|env\..*|sql|log|ini|lock|git.*)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /Novelweb/
+
+    # Blokir akses langsung ke direktori internal app dan database
+    RewriteRule ^(app|database)(/.*)?$ - [F,L]
+
+    # Blokir file sensitif
+    RewriteRule ^(\.env|\.git|database/.*) - [F,L]
+
+    # Jangan rewrite jika file atau folder fisik memang ada di public
+    RewriteCond %{REQUEST_URI} ^/Novelweb/public/
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Jangan rewrite jika request aset fisik di root kecuali file sensitif
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteCond %{REQUEST_URI} !\.(env|sql|log|md|json|lock)$ [NC]
+    RewriteRule ^ - [L]
+
+    # Redirect semua request lain ke index.php dengan query parameter url
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</IfModule>
+
+# Keamanan direktori dasar
+Options -Indexes
+
